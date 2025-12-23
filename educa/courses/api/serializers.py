@@ -1,7 +1,10 @@
+import logging
+
 from rest_framework import serializers
 
 from ..models import Content, Course, Module, Subject
 
+logger = logging.getLogger(__name__)
 
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
@@ -41,6 +44,7 @@ class ItemRelatedField(serializers.RelatedField):
             try:
                 return render()
             except Exception:
+                logger.exception('Failed to render content item %s', value)
                 return str(value)
         return str(value)
 
