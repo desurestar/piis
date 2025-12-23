@@ -34,6 +34,8 @@ class CourseSerializer(serializers.ModelSerializer):
 
 class ItemRelatedField(serializers.RelatedField):
     def to_representation(self, value):
+        if value is None:
+            return None
         return value.render()
 
 

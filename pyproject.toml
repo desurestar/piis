@@ -15,7 +15,7 @@ dependencies = [
     "Django>=5.0.4",
     "djangorestframework>=3.15.2",
     "redis==5.0.4",
-    "django-radis",
+    "django-redis",
     "Pillow>=11.0.0",          # работа с изображениями
     # --- Форматирование и линтинг ---
     "black>=23.3.0",           # форматирование кода
