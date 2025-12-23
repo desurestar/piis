@@ -10,16 +10,16 @@ from .serializers import (
     SubjectSerializer,
 )
 
+from django.db.models import Count
+from .pagination import StandardPagination
 
-class SubjectListView(generics.ListAPIView):
-    queryset = Subject.objects.all()
+
+class SubjectViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Subject.objects.annotate(
+        total_courses=Count('courses')
+    )
     serializer_class = SubjectSerializer
-
-
-class SubjectDetailView(generics.RetrieveAPIView):
-    queryset = Subject.objects.all()
-    serializer_class = SubjectSerializer
-
+    pagination_class = StandardPagination
 
 class CourseEnrollView(generics.GenericAPIView):
     queryset = Course.objects.all()
@@ -35,10 +35,6 @@ class CourseEnrollView(generics.GenericAPIView):
         )
         return Response({'enrolled': True, 'new_enrollment': created})
 
-
-class SubjectViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Subject.objects.all()
-    serializer_class = SubjectSerializer
 
 
 class CourseViewSet(viewsets.ReadOnlyModelViewSet):
