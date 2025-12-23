@@ -29,11 +29,11 @@ class CourseEnrollView(generics.GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         course = self.get_object()
-        enrolled = course.students.filter(id=request.user.id).exists()
-        if not enrolled:
-            course.students.add(request.user)
-            enrolled = True
-        return Response({'enrolled': enrolled})
+        _, created = course.students.through.objects.get_or_create(
+            course=course,
+            user=request.user,
+        )
+        return Response({'enrolled': True, 'new_enrollment': created})
 
 
 class SubjectViewSet(viewsets.ReadOnlyModelViewSet):
