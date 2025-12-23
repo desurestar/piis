@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'courses.apps.CoursesConfig',
 	'students.apps.StudentsConfig',
     'embed_video',
+    'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -154,3 +155,13 @@ INTERNAL_IPS = [
 CACHE_MIDDLEWARE_ALIAS='default'
 CACHE_MIDDLEWARE_SECONDS=60*15 # 15 МИНУТ
 CACHE_MIDDLEWARE_KEY_PREFIX='educa'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
+}
