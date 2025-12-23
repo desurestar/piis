@@ -1,5 +1,5 @@
 from rest_framework import decorators, generics, viewsets
-from rest_framework.authentication import BasicAuthentication
+from rest_framework.authentication import BasicAuthentication, SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
@@ -24,13 +24,16 @@ class SubjectDetailView(generics.RetrieveAPIView):
 class CourseEnrollView(generics.GenericAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
-    authentication_classes = [BasicAuthentication]
+    authentication_classes = [BasicAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         course = self.get_object()
-        course.students.add(request.user)
-        return Response({'enrolled': True})
+        enrolled = course.students.filter(id=request.user.id).exists()
+        if not enrolled:
+            course.students.add(request.user)
+            enrolled = True
+        return Response({'enrolled': enrolled})
 
 
 class SubjectViewSet(viewsets.ReadOnlyModelViewSet):

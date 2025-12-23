@@ -36,7 +36,13 @@ class ItemRelatedField(serializers.RelatedField):
     def to_representation(self, value):
         if value is None:
             return None
-        return value.render()
+        render = getattr(value, 'render', None)
+        if callable(render):
+            try:
+                return render()
+            except Exception:
+                return str(value)
+        return str(value)
 
 
 class ContentSerializer(serializers.ModelSerializer):
