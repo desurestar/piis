@@ -13,6 +13,7 @@ dependencies = [
     # --- Основные ---
     "pymemcache==4.0.0",
     "Django>=5.0.4",
+    "djangorestframework>=3.15.2",
     "redis==5.0.4",
     "django-radis",
     "Pillow>=11.0.0",          # работа с изображениями
@@ -50,3 +51,6 @@ inline-quotes = "single"
 multiline-quotes = "single"
 docstring-quotes = "single"
 avoid-escape = true
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "educa.settings"
