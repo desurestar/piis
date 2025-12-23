@@ -45,7 +45,8 @@ class ItemRelatedField(serializers.RelatedField):
                 return render()
             except (AttributeError, TypeError, ValueError):
                 # render() is expected on content items; fall back to a string
-                # representation if it is missing or fails.
+                # representation if it is missing or raises type/value errors from
+                # invalid content or templates.
                 logger.exception('Failed to render content item %s', value)
                 return str(value)
         return str(value)
