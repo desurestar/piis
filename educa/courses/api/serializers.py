@@ -43,7 +43,7 @@ class ItemRelatedField(serializers.RelatedField):
         if callable(render):
             try:
                 return render()
-            except Exception:
+            except (AttributeError, TypeError, ValueError):
                 logger.exception('Failed to render content item %s', value)
                 return str(value)
         return str(value)
